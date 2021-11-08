@@ -1,34 +1,12 @@
 import React, {Component} from 'react';
 
 export default class PostListItem extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      important: false,
-      liked: false
-    };
-    this.onImportant = this.onImportant.bind(this);
-    this.onLike = this.onLike.bind(this);
-  }
-
-  onImportant() {
-    this.setState(({important}) => ({
-      important: !important
-    }))
-  }
-
-  onLike() {
-    this.setState(({liked}) => ({
-      liked: !liked
-    }))
-  }
 
   render() {
-    const {label} = this.props;
-    const {important, liked} = this.state;
+    const {label, onDelete, onToggleImportant, onToggleLiked, important, like} = this.props;
     let classNames = 'app-list-item d-flex justify-content-between';
 
-    if (liked) {
+    if (like) {
       classNames += ' like';
     }
 
@@ -40,7 +18,7 @@ export default class PostListItem extends Component {
       <div className={classNames}>
       <span
         className="app-list-item-label"
-        onClick={this.onLike}
+        onClick={onToggleLiked}
       >
         {label}
       </span>
@@ -48,11 +26,15 @@ export default class PostListItem extends Component {
           <button
             type="button"
             className="btn-star btn-sm"
-            onClick={this.onImportant}
+            onClick={onToggleImportant}
           >
             <i className="fa fa-star"></i>
           </button>
-          <button type="button" className="btn-trash btn-sm">
+          <button
+            type="button"
+            className="btn-trash btn-sm"
+            onClick={onDelete}
+          >
             <i className="fa fa-trash"></i>
           </button>
           <i
